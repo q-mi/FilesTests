@@ -7,6 +7,5 @@ public class TestBase {
     @BeforeAll
     static void beforeAll() {
         Configuration.browserSize = "1400x900";
-        }
     }
-
+}

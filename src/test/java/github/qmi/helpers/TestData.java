@@ -11,6 +11,7 @@ public class TestData {
     public final static String CSV_FILE_NAME = "csvExample.csv";
 
     public final static String ZIP_FILE_NAME = "zipExample.zip";
+    public final static String ZIP_FILE_TEXT = "zipExample.txt";
 
     public final static String TXT_URL = "https://tululu.org/b46195/";
     public final static String TXT_SELECTOR = "a[href*='txt.php?id=46195'";

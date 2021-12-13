@@ -22,11 +22,11 @@ import static github.qmi.helpers.TestData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Owner("Tsareva")
 public class FileTests extends TestBase {
 
     @Test
     @DisplayName("Test for upload file")
-    @Owner("tsareva")
     @Story("Upload file and check it on site")
     void uploadFileResources() {
         open(UPLOAD_URL);
@@ -36,7 +36,6 @@ public class FileTests extends TestBase {
 
     @Test
     @DisplayName("Test for CSV file")
-    @Owner("tsareva")
     @Story("Parse and check CSV file")
     void downloadFileCSV() throws IOException, CsvException {
         ClassLoader classLoader = this.getClass().getClassLoader();
@@ -44,7 +43,6 @@ public class FileTests extends TestBase {
             assert is != null;
             try (Reader reader = new InputStreamReader(is)) {
                 CSVReader csvReader = new CSVReader(reader);
-
                 List<String[]> strings = csvReader.readAll();
                 assertEquals(7, strings.size());
             }
@@ -53,24 +51,20 @@ public class FileTests extends TestBase {
 
     @Test
     @DisplayName("Test for ZIP file")
-    @Owner("tsareva")
     @Story("Parse and check ZIP file")
     void parseZipFileTest() throws IOException {
         ClassLoader classLoader = this.getClass().getClassLoader();
-        try (InputStream is = classLoader.getResourceAsStream(ZIP_FILE_NAME)) {
-            assert is != null;
-            try (ZipInputStream zis = new ZipInputStream(is)) {
-                ZipEntry entry;
-                while ((entry = zis.getNextEntry()) != null) {
-                    System.out.println(entry.getName());
-                }
+        try (InputStream is = classLoader.getResourceAsStream(ZIP_FILE_NAME);
+             ZipInputStream zip = new ZipInputStream(is)) {
+            ZipEntry entry;
+            while ((entry = zip.getNextEntry()) != null) {
+                assertEquals(ZIP_FILE_TEXT, entry.getName());
             }
         }
     }
 
     @Test
     @DisplayName("Test for txt file")
-    @Owner("tsareva")
     @Story("Download, parse and check txt file")
     void downloadFile() throws IOException {
         open(TXT_URL);
@@ -81,7 +75,6 @@ public class FileTests extends TestBase {
 
     @Test
     @DisplayName("Test for PDF file")
-    @Owner("tsareva")
     @Story("Download, parse and check PDF file")
     void downloadPdfTest() throws IOException {
         open(PDF_URL);
@@ -91,10 +84,8 @@ public class FileTests extends TestBase {
         assertEquals(6, parsedPdf.numberOfPages);
     }
 
-
     @Test
     @DisplayName("Test for Excel file")
-    @Owner("tsareva")
     @Story("Download, parse and check xls file")
     public void downloadXlsTest() throws FileNotFoundException {
         open(XLS_URL);
@@ -112,9 +103,8 @@ public class FileTests extends TestBase {
 
     @Test
     @DisplayName("Test for ZIP file")
-    @Owner("tsareva")
     @Story("Download, parse and check ZIP file")
-    void downloadZipTest() throws IOException {
+    void downloadZipFileTest() throws IOException {
         open(ZIP_URL);
         File file = $(ZIP_SELECTOR).download();
         try (InputStream is = new FileInputStream(file.getPath());
